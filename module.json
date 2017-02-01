@@ -1,0 +1,10 @@
+{
+    "id": "profilenotify",
+    "name": "Profile Notify",
+    "description": "Notify admins about user profile changes.",
+    "keywords": ["profilenotify"],
+    "version": "0.1.0",
+    "humhub": {
+        "minVersion": "1.2"
+    }
+}
