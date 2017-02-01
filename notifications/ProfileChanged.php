@@ -35,8 +35,8 @@ class ProfileChanged extends BaseNotification
      */
     public function getTitle(\humhub\modules\user\models\User $user)
     {
-        return Yii::t('ProfilenotifyModule.base', 'User {firstName} changed Profile', [
-            '{firstName}' => $this->source->sender->firstname
+        return Yii::t('ProfilenotifyModule.base', 'User {displayName} changed Profile', [
+            '{displayName}' => $this->originator->getDisplayName()
         ]);
     }
 
@@ -69,8 +69,9 @@ class ProfileChanged extends BaseNotification
                     " (" . Yii::t('ProfilenotifyModule.base', 'before') . ": $oldValue)";
             }
         }
-        return Yii::t('ProfilenotifyModule.base', 'User {firstName} changed Profile params: {params}', [
-            '{firstName}' => Html::tag('strong', Html::encode($this->source->sender->firstname)),
+
+        return Yii::t('ProfilenotifyModule.base', 'User {displayName} changed Profile params: {params}', [
+            '{displayName}' => Html::tag('strong', Html::encode($this->originator->getDisplayName())),
             '{params}' => $changedAtrr,
         ]);
     }

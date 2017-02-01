@@ -15,7 +15,7 @@ class Module extends \humhub\components\Module
         $count = count($attr);
         /* birthday_hide_year always present - hardcoded */
         if(! (isset($attr['birthday_hide_year']) && $count == 1) && $count > 0){
-            ProfileChanged::instance()->about($event)->sendBulk(Group::getAdminGroup()->users);
+            ProfileChanged::instance()->from($event->sender->user)->about($event)->sendBulk(Group::getAdminGroup()->users);
         }
     }
 
