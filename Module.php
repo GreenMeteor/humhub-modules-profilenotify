@@ -5,9 +5,6 @@ namespace humhub\modules\profilenotify;
 use Yii;
 use yii\helpers\Url;
 use humhub\modules\user\models\Group;
-use humhub\components\behaviors\AccessControl;
-use humhub\modules\admin\permissions\ManageUsers;
-use humhub\modules\admin\permissions\ManageModules;
 use humhub\modules\profilenotify\notifications\ProfileChanged;
 
 class Module extends \humhub\components\Module
