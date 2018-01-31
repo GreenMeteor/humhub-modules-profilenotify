@@ -3,7 +3,7 @@
     "name": "Profile Notify",
     "description": "Notify admins about user profile changes.",
     "keywords": ["profilenotify"],
-    "version": "0.1.0",
+    "version": "0.1.1",
     "humhub": {
         "minVersion": "1.2"
     }
