@@ -12,7 +12,6 @@ use Yii;
 use yii\bootstrap\Html;
 use humhub\modules\user\models\User;
 use humhub\modules\notification\components\BaseNotification;
-use humhub\modules\profilenotify\notifications\ProfileChangedCategory;
 
 /**
  * ProfileChanged Notification
@@ -31,8 +30,13 @@ class ProfileChanged extends BaseNotification
      */
     public $viewName = "profilenotifyAccepted";
 
+    /**
+     * @var NotificationCategory cached category instance 
+     */
+    protected $_category = null;
+
     /* 
-     * @return \humhub\modules\notification\components\NotificationCategory
+     * @return NotificationCategory
      */
     public function getCategory()
     {
@@ -47,7 +51,7 @@ class ProfileChanged extends BaseNotification
      */
     public function category()
     {
-        return new ProfileChangedCategory;
+        return null;
     }
 
     /**
@@ -61,32 +65,22 @@ class ProfileChanged extends BaseNotification
     }
 
     /**
-     * @inheritdoc
+     * Should be overwritten by subclasses for a html representation of the notification.
+     * @return string
      */
     public function html()
     {
-        if($this->source->sender == null){
-            return Yii::t('ProfilenotifyModule.base', 'User ID {userId} changed Profile', [
-                '{userId}' => Html::tag('strong', Html::encode($this->record->user_id))
-            ]);
-        }
-        $changedAtrr = '';
-        $attributeLabels = $this->source->sender->attributeLabels();
-        foreach ($this->source->sender->dirtyAttributes as $name => $value){
-            /* birthday_hide_year always present - hardcoded */
-            if($name != 'birthday_hide_year') {
-                $oldValue = $this->source->sender->getOldAttribute($name);
-                $changedAtrr .= Html::tag('br') .
-                    $attributeLabels[$name] . ": $value" .
-                    " (" . Yii::t('ProfilenotifyModule.base', 'before') . ": $oldValue)";
-            }
-        }
-
-        return Yii::t('ProfilenotifyModule.base', 'User {displayName} changed Profile params: {params}', [
-            '{displayName}' => Html::tag('strong', Html::encode($this->originator->getDisplayName())),
-            '{params}' => $changedAtrr,
-        ]);
+        // Only for backward compatibility.
+        return $this->getAsHtml();
     }
-}
 
-?>
+    /**
+     * Use html() instead
+     * @deprecated since version 1.2
+     */
+    public function getAsHtml()
+    {
+        return null;
+    }
+
+}
