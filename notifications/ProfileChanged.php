@@ -2,7 +2,7 @@
 
 /**
  * @link https://www.humhub.org/
- * @copyright Copyright (c) 2016 HumHub GmbH & Co. KG
+ * @copyright Copyright (c) 2018 HumHub GmbH & Co. KG
  * @license https://www.humhub.com/licences
  */
 
@@ -10,6 +10,7 @@ namespace humhub\modules\profilenotify\notifications;
 
 use Yii;
 use yii\bootstrap\Html;
+use humhub\modules\user\models\User;
 use humhub\modules\notification\components\BaseNotification;
 use humhub\modules\profilenotify\notifications\ProfileChangedCategory;
 
@@ -30,14 +31,15 @@ class ProfileChanged extends BaseNotification
      */
     public $viewName = "profilenotifyAccepted";
 
-    /**
-     *  @inheritdoc
+    /* 
+     * @return \humhub\modules\notification\components\NotificationCategory
      */
-    public function getTitle(\humhub\modules\user\models\User $user)
+    public function getCategory()
     {
-        return Yii::t('ProfilenotifyModule.base', 'User {displayName} changed Profile', [
-            '{displayName}' => $this->originator->getDisplayName()
-        ]);
+        if (!$this->_category) {
+            $this->_category = $this->category();
+        }
+        return $this->_category;
     }
 
     /**
@@ -46,6 +48,16 @@ class ProfileChanged extends BaseNotification
     public function category()
     {
         return new ProfileChangedCategory;
+    }
+
+    /**
+     *  @inheritdoc
+     */
+    public function getTitle(User $user)
+    {
+        return Yii::t('ProfilenotifyModule.base', 'User {displayName} changed Profile', [
+            '{displayName}' => $this->originator->getDisplayName()
+        ]);
     }
 
     /**
